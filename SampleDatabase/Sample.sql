@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Sample]
+(
+	[Id] INT NOT NULL IDENTITY,
+	[Text] NVARCHAR(50) NOT NULL, 
+    CONSTRAINT [PK_Sample] PRIMARY KEY ([Id]),
+)
