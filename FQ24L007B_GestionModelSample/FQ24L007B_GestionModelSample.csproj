@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FQ24L007B_GestionModelSample.Bll\FQ24L007B_GestionModelSample.Bll.csproj" />
+    <ProjectReference Include="..\FQ24L007B_GestionModelSample.Domain\FQ24L007B_GestionModelSample.Domain.csproj" />
   </ItemGroup>
 
 </Project>

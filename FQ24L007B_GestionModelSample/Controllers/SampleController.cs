@@ -1,7 +1,11 @@
-using FQ24L007B_GestionModelSample.Bll.Entities;
-using FQ24L007B_GestionModelSample.Bll.Repositories;
+using FQ24L007B_GestionModelSample.Domain.Commands;
+using FQ24L007B_GestionModelSample.Domain.Entities;
+using FQ24L007B_GestionModelSample.Domain.Queries;
+using FQ24L007B_GestionModelSample.Domain.Repositories;
 using FQ24L007B_GestionModelSample.Foms.Sample;
 using Microsoft.AspNetCore.Mvc;
+
+using Tools.CQS.Commands;
 
 namespace FQ24L007B_GestionModelSample.Controllers
 {
@@ -21,35 +25,43 @@ namespace FQ24L007B_GestionModelSample.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_sampleRepository.Get().ToList());
+            return Ok(_sampleRepository.Execute(new GetSamplesQuery()).ToList());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Sample? sample = _sampleRepository.Get(id);
-            return (sample is null) ? NotFound() : Ok(sample); 
+            Sample? sample = _sampleRepository.Execute(new GetSampleByIdQuery(id));
+            return (sample is null) ? NotFound() : Ok(sample);
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] CreateSampleForm form)
         {
-            _sampleRepository.Insert(new Sample(form.Text));
-            return NoContent();
+            CommandResult result = _sampleRepository.Execute(new CreateSampleCommand(form.Text));
+
+            if(result.IsSuccess)
+                return NoContent();
+
+            return BadRequest(new { Message = result.ErrorMessage });
         }
 
         [HttpPut("{id}")]
         [HttpPatch("{id}")]
         public IActionResult Put([FromRoute] int id, [FromBody] UpdateSampleForm form)
         {
-            _sampleRepository.Update(id, new Sample(form.Text));
+            CommandResult result = _sampleRepository.Execute(new UpdateSampleCommand(id, form.Text));
+            
+            if(result.IsFailure)
+                return BadRequest(new { Message = result.ErrorMessage });
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            _sampleRepository.Delete(id);
+            _sampleRepository.Execute(new DeleteSampleCommand(id));
             return NoContent();
         }
     }
