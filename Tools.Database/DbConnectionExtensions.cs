@@ -40,7 +40,7 @@ namespace Tools.Database
             }
         }
 
-        public static IEnumerable<T> ExecuteReader<T>(this DbConnection dbConnection, string query, Func<DbDataReader, T> mapper, bool isStoredProcedure = false, object? parameters = null)
+        public static IEnumerable<T> ExecuteReader<T>(this DbConnection dbConnection, string query, Func<IDataRecord, T> mapper, bool isStoredProcedure = false, object? parameters = null)
         {
             dbConnection.EnsureValidConnection();
 

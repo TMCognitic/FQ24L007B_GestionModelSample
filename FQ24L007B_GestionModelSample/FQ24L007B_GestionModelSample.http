@@ -1,0 +1,6 @@
+@FQ24L007B_GestionModelSample_HostAddress = http://localhost:5120
+
+GET {{FQ24L007B_GestionModelSample_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
