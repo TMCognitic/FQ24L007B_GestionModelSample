@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FQ24L007B_GestionModelSample.Domain\FQ24L007B_GestionModelSample.Domain.csproj" />
+    <ProjectReference Include="..\Tools.CQS\Tools.CQS.csproj" />
   </ItemGroup>
 
 </Project>

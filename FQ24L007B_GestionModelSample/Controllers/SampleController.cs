@@ -61,7 +61,11 @@ namespace FQ24L007B_GestionModelSample.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            _sampleRepository.Execute(new DeleteSampleCommand(id));
+            CommandResult result = _sampleRepository.Execute(new DeleteSampleCommand(id));
+
+            if (result.IsFailure)
+                return BadRequest(result.ErrorMessage);
+
             return NoContent();
         }
     }
